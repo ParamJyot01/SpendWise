@@ -36,6 +36,10 @@ function Dashboard() {
     })
   }
 
+  function handleDelete(id) {
+    setTransactions(transactions.filter((t) => t.id !== id))
+  }
+
   return (
     <div>
       <h1>Dashboard</h1>
@@ -78,6 +82,7 @@ function Dashboard() {
         {transactions.map((t) => (
           <li key={t.id}>
             {t.description} — ₹{t.amount} ({t.category}, {t.type})
+            <button onClick={() => handleDelete(t.id)}>Delete</button>
           </li>
         ))}
       </ul>
