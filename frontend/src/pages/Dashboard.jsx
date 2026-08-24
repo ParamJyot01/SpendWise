@@ -8,6 +8,8 @@ function Dashboard() {
     type: 'expense'
   })
 
+  const [transactions, setTransactions] = useState([])
+
   function handleChange(e) {
     const { name, value } = e.target
     setFormData({
@@ -16,11 +18,29 @@ function Dashboard() {
     })
   }
 
+  function handleSubmit(e) {
+    e.preventDefault()
+
+    const newTransaction = {
+      id: Date.now(),
+      ...formData
+    }
+
+    setTransactions([...transactions, newTransaction])
+
+    setFormData({
+      amount: '',
+      description: '',
+      category: 'Food',
+      type: 'expense'
+    })
+  }
+
   return (
     <div>
       <h1>Dashboard</h1>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           type="number"
           name="amount"
@@ -49,9 +69,18 @@ function Dashboard() {
           <option value="expense">Expense</option>
           <option value="income">Income</option>
         </select>
+
+        <button type="submit">Add Transaction</button>
       </form>
 
-      <pre>{JSON.stringify(formData, null, 2)}</pre>
+      <h2>Transactions</h2>
+      <ul>
+        {transactions.map((t) => (
+          <li key={t.id}>
+            {t.description} — ₹{t.amount} ({t.category}, {t.type})
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
