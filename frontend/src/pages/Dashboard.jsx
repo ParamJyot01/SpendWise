@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function Dashboard() {
   const [formData, setFormData] = useState({
@@ -8,7 +8,14 @@ function Dashboard() {
     type: 'expense'
   })
 
-  const [transactions, setTransactions] = useState([])
+  const [transactions, setTransactions] = useState(() => {
+    const saved = localStorage.getItem('transactions')
+    return saved ? JSON.parse(saved) : []
+  })
+
+  useEffect(() => {
+    localStorage.setItem('transactions', JSON.stringify(transactions))
+  }, [transactions])
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -18,27 +25,38 @@ function Dashboard() {
     })
   }
 
-  function handleSubmit(e) {
-    e.preventDefault()
+function handleSubmit(e) {
+  e.preventDefault()
 
-    const newTransaction = {
-      id: Date.now(),
-      ...formData
-    }
-
-    setTransactions([...transactions, newTransaction])
-
-    setFormData({
-      amount: '',
-      description: '',
-      category: 'Food',
-      type: 'expense'
-    })
+  if (!formData.amount || Number(formData.amount) <= 0) {
+    alert('Please enter a valid amount greater than 0')
+    return
   }
+
+  if (!formData.description.trim()) {
+    alert('Please enter a description')
+    return
+  }
+
+  const newTransaction = {
+    id: Date.now(),
+    ...formData
+  }
+
+  setTransactions([...transactions, newTransaction])
+
+  setFormData({
+    amount: '',
+    description: '',
+    category: 'Food',
+    type: 'expense'
+  })
+}
 
   function handleDelete(id) {
     setTransactions(transactions.filter((t) => t.id !== id))
   }
+
   const totalIncome = transactions
     .filter((t) => t.type === 'income')
     .reduce((sum, t) => sum + Number(t.amount), 0)
@@ -48,6 +66,7 @@ function Dashboard() {
     .reduce((sum, t) => sum + Number(t.amount), 0)
 
   const balance = totalIncome - totalExpense
+
   return (
     <div>
       <h1>Dashboard</h1>
