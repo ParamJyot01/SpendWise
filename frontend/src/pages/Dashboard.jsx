@@ -39,10 +39,23 @@ function Dashboard() {
   function handleDelete(id) {
     setTransactions(transactions.filter((t) => t.id !== id))
   }
+  const totalIncome = transactions
+    .filter((t) => t.type === 'income')
+    .reduce((sum, t) => sum + Number(t.amount), 0)
 
+  const totalExpense = transactions
+    .filter((t) => t.type === 'expense')
+    .reduce((sum, t) => sum + Number(t.amount), 0)
+
+  const balance = totalIncome - totalExpense
   return (
     <div>
       <h1>Dashboard</h1>
+      <div>
+        <p>Total Income: ₹{totalIncome}</p>
+        <p>Total Expense: ₹{totalExpense}</p>
+        <p>Balance: ₹{balance}</p>
+      </div>
 
       <form onSubmit={handleSubmit}>
         <input
