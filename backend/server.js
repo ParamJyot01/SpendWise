@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import transactionRoutes from './routes/transactionRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 
 dotenv.config()
 
@@ -19,6 +20,7 @@ app.get('/api/health', (req, res) => {
 })
 
 app.use('/api/transactions', transactionRoutes)
+app.use('/api/auth', authRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
