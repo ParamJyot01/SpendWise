@@ -1,3 +1,4 @@
+import ProtectedRoute from './components/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
@@ -12,7 +13,11 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
   )
