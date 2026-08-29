@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function RegisterPage() {
@@ -8,7 +8,21 @@ function RegisterPage() {
     password: ''
   })
   const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('theme') === 'dark'
+  })
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode-active')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.body.classList.remove('dark-mode-active')
+      localStorage.setItem('theme', 'light')
+    }
+  }, [isDarkMode])
 
   function handleChange(e) {
     setFormData({
@@ -41,55 +55,118 @@ function RegisterPage() {
     }
   }
 
-   return (
-    <div className="auth-page">
-      <div className="auth-illustration">
-        <div className="auth-blob"></div>
-        <div className="auth-blob-2"></div>
-        <div className="auth-brand">
-          <span className="auth-brand-dot"></span>
-          SpendWise
-        </div>
+  return (
+    <div className={`login-page-wrapper ${isDarkMode ? 'dark-mode' : ''}`}>
+      <button className="theme-toggle" onClick={() => setIsDarkMode(!isDarkMode)}>
+        {isDarkMode ? '☀️' : '🌙'}
+      </button>
+      <div className="login-container">
 
-        <div className="auth-illustration-graphic">
-          <svg width="190" height="190" viewBox="0 0 200 200" fill="none">
-            <rect x="40" y="110" width="24" height="60" rx="7" fill="rgba(255,255,255,0.85)" />
-            <rect x="88" y="80" width="24" height="90" rx="7" fill="white" />
-            <rect x="136" y="50" width="24" height="120" rx="7" fill="#fbbf24" />
-            <circle cx="148" cy="40" r="12" fill="white" />
-          </svg>
-        </div>
+        <section className="login-left">
+          <div className="circle-one"></div>
+          <div className="circle-two"></div>
 
-        <div className="auth-quote">
-          <p>"Setup took two minutes. Now I actually stick to my budget."</p>
-          <span>Join people building better money habits.</span>
-        </div>
-      </div>
+          <div className="login-brand">
+            <div className="logo-icon">↗</div>
+            <div className="brand-name">spend<span>Wise</span></div>
+          </div>
 
-      <div className="auth-form-side">
-        <div className="auth-container">
-          <h1>Create your account</h1>
-          <p className="auth-subtitle">Start tracking your money in minutes</p>
-          {error && <p className="auth-error">{error}</p>}
+          <p className="tagline">Track · Manage · Save</p>
+
+          <h2 className="left-title">Start Your Journey</h2>
+          <p className="left-description">Create an account to take control of your money.</p>
+
+          <div className="illustration">
+            <div className="monitor">
+              <div className="monitor-header">
+                <span className="mdot"></span>
+                <span className="mdot"></span>
+                <span className="mdot"></span>
+              </div>
+              <div className="dashboard-content">
+                <div className="mini-chart">
+                  <div className="mini-bar"></div>
+                  <div className="mini-bar"></div>
+                  <div className="mini-bar"></div>
+                  <div className="mini-bar"></div>
+                  <div className="mini-bar"></div>
+                </div>
+                <div className="pie"></div>
+              </div>
+            </div>
+
+            <div className="person">
+              <div className="head"></div>
+              <div className="torso"></div>
+              <div className="leg-one"></div>
+              <div className="leg-two"></div>
+            </div>
+
+            <div className="coin">₹</div>
+          </div>
+        </section>
+
+        <section className="login-right">
+          <h1 className="login-title">Register</h1>
+          <p className="login-subtitle">Create your account to get started.</p>
+
+          {error && <p className="login-error-box">{error}</p>}
+
           <form onSubmit={handleSubmit}>
-            <div className="auth-field">
+            <div className="input-group">
               <label>Name</label>
-              <input name="name" placeholder="Your name" value={formData.name} onChange={handleChange} />
+              <div className="input-wrapper">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter your name"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className="auth-field">
+
+            <div className="input-group">
               <label>Email</label>
-              <input name="email" placeholder="you@example.com" value={formData.email} onChange={handleChange} />
+              <div className="input-wrapper">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                <span className="input-icon">✉</span>
+              </div>
             </div>
-            <div className="auth-field">
+
+            <div className="input-group">
               <label>Password</label>
-              <input name="password" type="password" placeholder="••••••••" value={formData.password} onChange={handleChange} />
+              <div className="input-wrapper">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder="Enter your password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <span
+                  className="input-icon"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  ◉
+                </span>
+              </div>
             </div>
-            <button type="submit">Create Account</button>
+
+            <button type="submit" className="login-btn">Register</button>
           </form>
-          <p className="auth-switch">
+
+          <p className="signup-text">
             Already have an account? <a href="/login">Log in</a>
           </p>
-        </div>
+        </section>
+
       </div>
     </div>
   )

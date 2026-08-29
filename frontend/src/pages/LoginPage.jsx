@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function LoginPage() {
@@ -8,8 +8,20 @@ function LoginPage() {
   })
   const [error, setError] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('theme') === 'dark'
+  })
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode-active')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.body.classList.remove('dark-mode-active')
+      localStorage.setItem('theme', 'light')
+    }
+  }, [isDarkMode])
 
   function handleChange(e) {
     setFormData({
