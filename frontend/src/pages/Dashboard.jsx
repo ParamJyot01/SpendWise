@@ -103,16 +103,26 @@ function Dashboard() {
   const balance = totalIncome - totalExpense
 
   return (
-    <div>
+    <div className="dashboard-container">
       <h1>Dashboard</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div>
-        <p>Total Income: ₹{totalIncome}</p>
-        <p>Total Expense: ₹{totalExpense}</p>
-        <p>Balance: ₹{balance}</p>
+      {error && <p className="auth-error">{error}</p>}
+
+      <div className="summary-cards">
+        <div className="summary-card income-card">
+          <h3>Total Income</h3>
+          <p>₹{totalIncome}</p>
+        </div>
+        <div className="summary-card expense-card">
+          <h3>Total Expense</h3>
+          <p>₹{totalExpense}</p>
+        </div>
+        <div className="summary-card balance-card">
+          <h3>Balance</h3>
+          <p>₹{balance}</p>
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form className="transaction-form" onSubmit={handleSubmit}>
         <input
           type="number"
           name="amount"
@@ -146,10 +156,10 @@ function Dashboard() {
       </form>
 
       <h2>Transactions</h2>
-      <ul>
+      <ul className="transaction-list">
         {transactions.map((t) => (
-          <li key={t._id}>
-            {t.description} — ₹{t.amount} ({t.category}, {t.type})
+          <li key={t._id} className="transaction-item">
+            <span>{t.description} — ₹{t.amount} ({t.category}, {t.type})</span>
             <button onClick={() => handleDelete(t._id)}>Delete</button>
           </li>
         ))}
