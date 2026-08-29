@@ -8,14 +8,28 @@ function Dashboard() {
     type: 'expense'
   })
 
-  const [transactions, setTransactions] = useState(() => {
-    const saved = localStorage.getItem('transactions')
-    return saved ? JSON.parse(saved) : []
-  })
+  const [transactions, setTransactions] = useState([])
+  const [error, setError] = useState('')
+
+  const token = localStorage.getItem('token')
 
   useEffect(() => {
-    localStorage.setItem('transactions', JSON.stringify(transactions))
-  }, [transactions])
+    fetchTransactions()
+  }, [])
+
+  async function fetchTransactions() {
+    try {
+      const response = await fetch('http://localhost:5000/api/transactions', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      const data = await response.json()
+      setTransactions(data)
+    } catch (err) {
+      setError('Failed to load transactions')
+    }
+  }
 
   function handleChange(e) {
     const { name, value } = e.target
@@ -25,36 +39,57 @@ function Dashboard() {
     })
   }
 
-function handleSubmit(e) {
-  e.preventDefault()
+  async function handleSubmit(e) {
+    e.preventDefault()
 
-  if (!formData.amount || Number(formData.amount) <= 0) {
-    alert('Please enter a valid amount greater than 0')
-    return
+    if (!formData.amount || Number(formData.amount) <= 0) {
+      alert('Please enter a valid amount greater than 0')
+      return
+    }
+
+    if (!formData.description.trim()) {
+      alert('Please enter a description')
+      return
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/transactions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      })
+
+      const newTransaction = await response.json()
+
+      setTransactions([...transactions, newTransaction])
+
+      setFormData({
+        amount: '',
+        description: '',
+        category: 'Food',
+        type: 'expense'
+      })
+    } catch (err) {
+      setError('Failed to add transaction')
+    }
   }
 
-  if (!formData.description.trim()) {
-    alert('Please enter a description')
-    return
-  }
+  async function handleDelete(id) {
+    try {
+      await fetch(`http://localhost:5000/api/transactions/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
 
-  const newTransaction = {
-    id: Date.now(),
-    ...formData
-  }
-
-  setTransactions([...transactions, newTransaction])
-
-  setFormData({
-    amount: '',
-    description: '',
-    category: 'Food',
-    type: 'expense'
-  })
-}
-
-  function handleDelete(id) {
-    setTransactions(transactions.filter((t) => t.id !== id))
+      setTransactions(transactions.filter((t) => t._id !== id))
+    } catch (err) {
+      setError('Failed to delete transaction')
+    }
   }
 
   const totalIncome = transactions
@@ -70,6 +105,7 @@ function handleSubmit(e) {
   return (
     <div>
       <h1>Dashboard</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <div>
         <p>Total Income: ₹{totalIncome}</p>
         <p>Total Expense: ₹{totalExpense}</p>
@@ -112,9 +148,9 @@ function handleSubmit(e) {
       <h2>Transactions</h2>
       <ul>
         {transactions.map((t) => (
-          <li key={t.id}>
+          <li key={t._id}>
             {t.description} — ₹{t.amount} ({t.category}, {t.type})
-            <button onClick={() => handleDelete(t.id)}>Delete</button>
+            <button onClick={() => handleDelete(t._id)}>Delete</button>
           </li>
         ))}
       </ul>
