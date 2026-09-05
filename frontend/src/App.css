@@ -42,9 +42,17 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 48px;
+  padding: 16px 32px;
   background: white;
   border-bottom: 1px solid #eef2f0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.navbar-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .navbar-logo {
@@ -54,12 +62,11 @@ body {
 }
 
 .navbar-links button {
-  margin-left: 12px;
-  padding: 10px 22px;
+  padding: 9px 18px;
   border: none;
   border-radius: 9px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   font-family: inherit;
 }
@@ -300,44 +307,46 @@ body {
 }
 
 /* ---------- Dashboard ---------- */
-/* ---------- Dashboard ---------- */
 .dashboard-container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 0 20px;
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 24px;
 }
 
 .dashboard-container h1 {
   font-weight: 800;
   letter-spacing: -1px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+  font-size: 32px;
 }
 
 .summary-cards {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
 .summary-card {
-  flex: 1;
   background: white;
-  padding: 20px;
+  padding: 18px 20px;
   border-radius: 14px;
   box-shadow: 0 4px 14px rgba(27,94,52,0.06);
-  text-align: center;
   border: 1px solid #eef2f0;
+  text-align: left;
 }
 
 .summary-card h3 {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
 .summary-card p {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
 }
 
@@ -347,14 +356,15 @@ body {
 
 .transaction-form {
   background: white;
-  padding: 20px;
+  padding: 18px;
   border-radius: 14px;
   box-shadow: 0 4px 14px rgba(27,94,52,0.06);
   border: 1px solid #eef2f0;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.2fr 1.6fr 1fr 1fr auto;
   gap: 10px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+  margin-bottom: 20px;
+  align-items: center;
 }
 
 .transaction-form input,
@@ -364,6 +374,7 @@ body {
   border-radius: 9px;
   font-size: 14px;
   font-family: inherit;
+  width: 100%;
 }
 
 .transaction-form input:focus,
@@ -377,11 +388,12 @@ body {
   background: var(--primary);
   color: white;
   border: none;
-  padding: 11px 22px;
+  padding: 11px 20px;
   border-radius: 9px;
   cursor: pointer;
   font-weight: 600;
   font-family: inherit;
+  white-space: nowrap;
 }
 
 .transaction-form button:hover {
@@ -389,19 +401,23 @@ body {
 }
 
 .dashboard-container h2 {
-  margin-bottom: 14px;
-  font-size: 18px;
+  margin-bottom: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #334155;
 }
 
 .transaction-list {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .transaction-item {
   background: white;
-  padding: 16px 20px;
+  padding: 14px 18px;
   border-radius: 12px;
-  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -409,16 +425,46 @@ body {
   box-shadow: 0 2px 8px rgba(27,94,52,0.04);
 }
 
+.transaction-item span {
+  font-size: 14.5px;
+  color: #1e293b;
+}
+
+.transaction-item div {
+  display: flex;
+  gap: 8px;
+}
+
 .transaction-item button {
-  background: var(--danger-bg);
-  color: var(--danger);
   border: none;
   padding: 7px 16px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   font-family: inherit;
+}
+
+.transaction-item button:first-child {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.transaction-item button:last-child {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+@media (max-width: 800px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+  .transaction-form {
+    grid-template-columns: 1fr 1fr;
+  }
+  .transaction-form button {
+    grid-column: span 2;
+  }
 }
 /* ---------- New Login Design ---------- */
 .login-page-wrapper {
