@@ -927,3 +927,75 @@ body {
   border-color: #334155;
   color: #f1f5f9;
 }
+/* ---------- Budgets ---------- */
+.budget-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.budget-card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(27,94,52,0.06);
+  border: 1px solid #eef2f0;
+}
+
+.budget-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.budget-category {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.budget-card-header button {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.budget-progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #f1f5f4;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.budget-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.budget-progress-fill.over-budget {
+  background: var(--danger);
+}
+
+.budget-numbers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.budget-warning {
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 8px;
+}
