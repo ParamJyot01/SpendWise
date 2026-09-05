@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Navbar from '../components/Navbar'
 
 function BudgetsPage() {
   const [budgets, setBudgets] = useState([])
@@ -22,6 +23,12 @@ function BudgetsPage() {
         headers: { Authorization: `Bearer ${token}` }
       })
       const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.message || 'Failed to load budgets')
+        return
+      }
+
       setBudgets(data)
     } catch (err) {
       setError('Failed to load budgets')
@@ -34,6 +41,12 @@ function BudgetsPage() {
         headers: { Authorization: `Bearer ${token}` }
       })
       const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.message || 'Failed to load transactions')
+        return
+      }
+
       setTransactions(data)
     } catch (err) {
       setError('Failed to load transactions')
@@ -92,59 +105,62 @@ function BudgetsPage() {
   }
 
   return (
-    <div className="dashboard-container">
-      <h1>Budgets</h1>
-      {error && <p className="auth-error">{error}</p>}
+    <>
+      <Navbar />
+      <div className="dashboard-container">
+        <h1>Budgets</h1>
+        {error && <p className="auth-error">{error}</p>}
 
-      <form className="transaction-form" onSubmit={handleSubmit}>
-        <select name="category" value={formData.category} onChange={handleChange}>
-          <option value="Food">Food</option>
-          <option value="Transport">Transport</option>
-          <option value="Shopping">Shopping</option>
-          <option value="Bills">Bills</option>
-          <option value="Other">Other</option>
-        </select>
+        <form className="transaction-form" onSubmit={handleSubmit}>
+          <select name="category" value={formData.category} onChange={handleChange}>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Bills">Bills</option>
+            <option value="Other">Other</option>
+          </select>
 
-        <input
-          type="number"
-          name="limit"
-          placeholder="Budget limit"
-          value={formData.limit}
-          onChange={handleChange}
-        />
+          <input
+            type="number"
+            name="limit"
+            placeholder="Budget limit"
+            value={formData.limit}
+            onChange={handleChange}
+          />
 
-        <button type="submit">Set Budget</button>
-      </form>
+          <button type="submit">Set Budget</button>
+        </form>
 
-      <h2>Your Budgets</h2>
-      <div className="budget-list">
-        {budgets.map((b) => {
-          const spent = getSpentForCategory(b.category)
-          const percentage = Math.min((spent / b.limit) * 100, 100)
-          const isOverBudget = spent > b.limit
+        <h2>Your Budgets</h2>
+        <div className="budget-list">
+          {budgets.map((b) => {
+            const spent = getSpentForCategory(b.category)
+            const percentage = Math.min((spent / b.limit) * 100, 100)
+            const isOverBudget = spent > b.limit
 
-          return (
-            <div key={b._id} className="budget-card">
-              <div className="budget-card-header">
-                <span className="budget-category">{b.category}</span>
-                <button onClick={() => handleDelete(b._id)}>Delete</button>
+            return (
+              <div key={b._id} className="budget-card">
+                <div className="budget-card-header">
+                  <span className="budget-category">{b.category}</span>
+                  <button onClick={() => handleDelete(b._id)}>Delete</button>
+                </div>
+                <div className="budget-progress-bar">
+                  <div
+                    className={`budget-progress-fill ${isOverBudget ? 'over-budget' : ''}`}
+                    style={{ width: `${percentage}%` }}
+                  ></div>
+                </div>
+                <div className="budget-numbers">
+                  <span>₹{spent} spent</span>
+                  <span>₹{b.limit} limit</span>
+                </div>
+                {isOverBudget && <p className="budget-warning">You've exceeded this budget!</p>}
               </div>
-              <div className="budget-progress-bar">
-                <div
-                  className={`budget-progress-fill ${isOverBudget ? 'over-budget' : ''}`}
-                  style={{ width: `${percentage}%` }}
-                ></div>
-              </div>
-              <div className="budget-numbers">
-                <span>₹{spent} spent</span>
-                <span>₹{b.limit} limit</span>
-              </div>
-              {isOverBudget && <p className="budget-warning">You've exceeded this budget!</p>}
-            </div>
-          )
-        })}
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Navbar from '../components/Navbar'
 
 function Dashboard() {
   const [formData, setFormData] = useState({
@@ -109,68 +110,71 @@ function Dashboard() {
   const balance = totalIncome - totalExpense
 
   return (
-    <div className="dashboard-container">
-      <h1>Dashboard</h1>
-      {error && <p className="auth-error">{error}</p>}
+    <>
+      <Navbar />
+      <div className="dashboard-container">
+        <h1>Dashboard</h1>
+        {error && <p className="auth-error">{error}</p>}
 
-      <div className="summary-cards">
-        <div className="summary-card income-card">
-          <h3>Total Income</h3>
-          <p>₹{totalIncome}</p>
+        <div className="summary-cards">
+          <div className="summary-card income-card">
+            <h3>Total Income</h3>
+            <p>₹{totalIncome}</p>
+          </div>
+          <div className="summary-card expense-card">
+            <h3>Total Expense</h3>
+            <p>₹{totalExpense}</p>
+          </div>
+          <div className="summary-card balance-card">
+            <h3>Balance</h3>
+            <p>₹{balance}</p>
+          </div>
         </div>
-        <div className="summary-card expense-card">
-          <h3>Total Expense</h3>
-          <p>₹{totalExpense}</p>
-        </div>
-        <div className="summary-card balance-card">
-          <h3>Balance</h3>
-          <p>₹{balance}</p>
-        </div>
+
+        <form className="transaction-form" onSubmit={handleSubmit}>
+          <input
+            type="number"
+            name="amount"
+            placeholder="Amount"
+            value={formData.amount}
+            onChange={handleChange}
+          />
+
+          <input
+            type="text"
+            name="description"
+            placeholder="Description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+
+          <select name="category" value={formData.category} onChange={handleChange}>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Bills">Bills</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <select name="type" value={formData.type} onChange={handleChange}>
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+
+          <button type="submit">Add Transaction</button>
+        </form>
+
+        <h2>Transactions</h2>
+        <ul className="transaction-list">
+          {transactions.map((t) => (
+            <li key={t._id} className="transaction-item">
+              <span>{t.description} — ₹{t.amount} ({t.category}, {t.type})</span>
+              <button onClick={() => handleDelete(t._id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
       </div>
-
-      <form className="transaction-form" onSubmit={handleSubmit}>
-        <input
-          type="number"
-          name="amount"
-          placeholder="Amount"
-          value={formData.amount}
-          onChange={handleChange}
-        />
-
-        <input
-          type="text"
-          name="description"
-          placeholder="Description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-
-        <select name="category" value={formData.category} onChange={handleChange}>
-          <option value="Food">Food</option>
-          <option value="Transport">Transport</option>
-          <option value="Shopping">Shopping</option>
-          <option value="Bills">Bills</option>
-          <option value="Other">Other</option>
-        </select>
-
-        <select name="type" value={formData.type} onChange={handleChange}>
-          <option value="expense">Expense</option>
-          <option value="income">Income</option>
-        </select>
-
-        <button type="submit">Add Transaction</button>
-      </form>
-
-      <h2>Transactions</h2>
-      <ul className="transaction-list">
-        {transactions.map((t) => (
-          <li key={t._id} className="transaction-item">
-            <span>{t.description} — ₹{t.amount} ({t.category}, {t.type})</span>
-            <button onClick={() => handleDelete(t._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    </>
   )
 }
 
