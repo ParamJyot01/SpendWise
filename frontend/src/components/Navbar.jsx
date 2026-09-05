@@ -14,7 +14,11 @@ function Navbar() {
       <h2 className="navbar-logo">SpendWise</h2>
       <div className="navbar-links">
         {token ? (
-          <button onClick={handleLogout}>Logout</button>
+          <>
+            <Link to="/dashboard"><button>Dashboard</button></Link>
+            <Link to="/budgets"><button>Budgets</button></Link>
+            <button onClick={handleLogout}>Logout</button>
+          </>
         ) : (
           <>
             <Link to="/login">

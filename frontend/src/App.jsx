@@ -5,6 +5,7 @@ import './App.css'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import BudgetsPage from './pages/BudgetsPage'
 
 function App() {
   return (
@@ -16,6 +17,11 @@ function App() {
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/budgets" element={
+          <ProtectedRoute>
+            <BudgetsPage />
           </ProtectedRoute>
         } />
       </Routes>

@@ -25,6 +25,12 @@ function Dashboard() {
         }
       })
       const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.message || 'Failed to load transactions')
+        return
+      }
+
       setTransactions(data)
     } catch (err) {
       setError('Failed to load transactions')
