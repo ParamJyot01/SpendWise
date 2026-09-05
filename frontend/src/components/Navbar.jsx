@@ -17,6 +17,7 @@ function Navbar() {
           <>
             <Link to="/dashboard"><button>Dashboard</button></Link>
             <Link to="/budgets"><button>Budgets</button></Link>
+            <Link to="/analytics"><button>Analytics</button></Link>
             <button onClick={handleLogout}>Logout</button>
           </>
         ) : (

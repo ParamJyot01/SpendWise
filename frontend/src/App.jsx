@@ -1,4 +1,5 @@
 import ProtectedRoute from './components/ProtectedRoute'
+import AnalyticsPage from './pages/AnalyticsPage'
 import Dashboard from './pages/Dashboard'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
@@ -22,6 +23,11 @@ function App() {
         <Route path="/budgets" element={
           <ProtectedRoute>
             <BudgetsPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/analytics" element={
+          <ProtectedRoute>
+            <AnalyticsPage />
           </ProtectedRoute>
         } />
       </Routes>
