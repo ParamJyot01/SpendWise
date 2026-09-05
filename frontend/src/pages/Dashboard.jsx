@@ -11,6 +11,7 @@ function Dashboard() {
 
   const [transactions, setTransactions] = useState([])
   const [error, setError] = useState('')
+  const [editingId, setEditingId] = useState(null)
 
   const token = localStorage.getItem('token')
 
@@ -46,6 +47,16 @@ function Dashboard() {
     })
   }
 
+  function handleEditClick(transaction) {
+    setEditingId(transaction._id)
+    setFormData({
+      amount: transaction.amount,
+      description: transaction.description,
+      category: transaction.category,
+      type: transaction.type
+    })
+  }
+
   async function handleSubmit(e) {
     e.preventDefault()
 
@@ -60,18 +71,36 @@ function Dashboard() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/transactions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(formData)
-      })
+      if (editingId) {
+        const response = await fetch(`http://localhost:5000/api/transactions/${editingId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(formData)
+        })
 
-      const newTransaction = await response.json()
+        const updatedTransaction = await response.json()
 
-      setTransactions([...transactions, newTransaction])
+        setTransactions(transactions.map((t) =>
+          t._id === editingId ? updatedTransaction : t
+        ))
+
+        setEditingId(null)
+      } else {
+        const response = await fetch('http://localhost:5000/api/transactions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(formData)
+        })
+
+        const newTransaction = await response.json()
+        setTransactions([...transactions, newTransaction])
+      }
 
       setFormData({
         amount: '',
@@ -80,7 +109,7 @@ function Dashboard() {
         type: 'expense'
       })
     } catch (err) {
-      setError('Failed to add transaction')
+      setError('Failed to save transaction')
     }
   }
 
@@ -161,7 +190,7 @@ function Dashboard() {
             <option value="income">Income</option>
           </select>
 
-          <button type="submit">Add Transaction</button>
+          <button type="submit">{editingId ? 'Update Transaction' : 'Add Transaction'}</button>
         </form>
 
         <h2>Transactions</h2>
@@ -169,7 +198,10 @@ function Dashboard() {
           {transactions.map((t) => (
             <li key={t._id} className="transaction-item">
               <span>{t.description} — ₹{t.amount} ({t.category}, {t.type})</span>
-              <button onClick={() => handleDelete(t._id)}>Delete</button>
+              <div>
+                <button onClick={() => handleEditClick(t)}>Edit</button>
+                <button onClick={() => handleDelete(t._id)}>Delete</button>
+              </div>
             </li>
           ))}
         </ul>
