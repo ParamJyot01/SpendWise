@@ -50,4 +50,31 @@ router.delete('/:id', async (req, res) => {
   }
 })
 
+// ... (GET, POST, DELETE routes stay exactly as they are above) ...
+
+// UPDATE a transaction (only if it belongs to the logged-in user)
+router.put('/:id', async (req, res) => {
+  try {
+    const transaction = await Transaction.findById(req.params.id)
+
+    if (!transaction) {
+      return res.status(404).json({ message: 'Transaction not found' })
+    }
+
+    if (transaction.userId.toString() !== req.userId) {
+      return res.status(403).json({ message: 'Not authorized to edit this transaction' })
+    }
+
+    const updatedTransaction = await Transaction.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    )
+
+    res.status(200).json(updatedTransaction)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
+
 export default router
