@@ -3,7 +3,13 @@ import Sidebar from '../components/Sidebar'
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts'
 
 const COLORS = ['#20c978', '#4f46e5', '#f59e0b', '#dc2626', '#0ea5e9', '#8b5cf6', '#ec4899', '#14b8a6']
-
+const CATEGORY_ICONS = {
+  Food: '🍔',
+  Transport: '🚌',
+  Shopping: '🛍️',
+  Bills: '📄',
+  Other: '📦'
+}
 function AnalyticsPage() {
   const [transactions, setTransactions] = useState([])
   const [error, setError] = useState('')
@@ -60,6 +66,29 @@ function AnalyticsPage() {
       { name: 'Expense', amount: expense }
     ]
   }
+    function getRecentTransactions() {
+    return [...transactions]
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 5)
+  }
+  function getSummaryStats() {
+    const income = transactions
+      .filter((t) => t.type === 'income')
+      .reduce((sum, t) => sum + Number(t.amount), 0)
+
+    const expense = transactions
+      .filter((t) => t.type === 'expense')
+      .reduce((sum, t) => sum + Number(t.amount), 0)
+
+    return {
+      income,
+      expense,
+      balance: income - expense,
+      transactionCount: transactions.length
+    }
+  }
+
+  const stats = getSummaryStats()
 
   const categoryData = getCategoryBreakdown()
 
@@ -74,6 +103,37 @@ function AnalyticsPage() {
           </div>
           {error && <p className="auth-error">{error}</p>}
 
+          <div className="analytics-stats-row">
+            <div className="stat-card">
+              <div className="stat-icon income-icon">₹</div>
+              <div>
+                <span className="stat-label">Total Income</span>
+                <span className="stat-value">₹{stats.income}</span>
+              </div>
+            </div>
+            <div className="stat-card highlighted">
+              <div className="stat-icon expense-icon-white">↓</div>
+              <div>
+                <span className="stat-label light">Total Expense</span>
+                <span className="stat-value light">₹{stats.expense}</span>
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-icon balance-icon">=</div>
+              <div>
+                <span className="stat-label">Balance</span>
+                <span className="stat-value">₹{stats.balance}</span>
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-icon count-icon">#</div>
+              <div>
+                <span className="stat-label">Transactions</span>
+                <span className="stat-value">{stats.transactionCount}</span>
+              </div>
+            </div>
+          </div>
+
           <div className="charts-grid">
             {categoryData.length === 0 ? (
               <p>No expense data yet. Add some transactions to see your breakdown.</p>
@@ -82,15 +142,17 @@ function AnalyticsPage() {
                 <h2>Spending by Category</h2>
                 <ResponsiveContainer width="100%" height={380}>
                   <PieChart>
-                    <Pie
-                      data={categoryData}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      label={false}
-                    >
+                <Pie
+                  data={categoryData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={70}
+                  outerRadius={110}
+                  paddingAngle={3}
+                  label={false}
+                >
                       {categoryData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
@@ -105,7 +167,7 @@ function AnalyticsPage() {
             {transactions.length > 0 && (
               <div className="chart-card">
                 <h2>Income vs Expense</h2>
-                <ResponsiveContainer width="100%" height={380}>
+                <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={getIncomeVsExpense()}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
@@ -116,6 +178,24 @@ function AnalyticsPage() {
                 </ResponsiveContainer>
               </div>
             )}
+                   </div>
+
+          <div className="chart-card recent-list-card">
+            <h2>Recent Transactions</h2>
+            <div className="recent-list">
+              {getRecentTransactions().map((t) => (
+                <div key={t._id} className="recent-item">
+                  <div className="recent-item-icon">{CATEGORY_ICONS[t.category] || '💰'}</div>
+                  <div className="recent-item-info">
+                    <span className="recent-item-name">{t.description}</span>
+                    <span className="recent-item-date">{new Date(t.date).toLocaleDateString()}</span>
+                  </div>
+                  <span className={`recent-item-amount ${t.type}`}>
+                    {t.type === 'income' ? '+' : '-'}₹{t.amount}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
