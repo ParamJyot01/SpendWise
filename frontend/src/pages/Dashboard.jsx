@@ -12,6 +12,10 @@ function Dashboard() {
   const [transactions, setTransactions] = useState([])
   const [error, setError] = useState('')
   const [editingId, setEditingId] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filterCategory, setFilterCategory] = useState('All')
+  const [filterType, setFilterType] = useState('All')
+  const [sortBy, setSortBy] = useState('newest')
 
   const token = localStorage.getItem('token')
 
@@ -127,6 +131,35 @@ function Dashboard() {
       setError('Failed to delete transaction')
     }
   }
+  function getFilteredTransactions() {
+    let filtered = [...transactions]
+
+    if (searchTerm.trim()) {
+      filtered = filtered.filter((t) =>
+        t.description.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+
+    if (filterCategory !== 'All') {
+      filtered = filtered.filter((t) => t.category === filterCategory)
+    }
+
+    if (filterType !== 'All') {
+      filtered = filtered.filter((t) => t.type === filterType)
+    }
+
+    if (sortBy === 'newest') {
+      filtered.sort((a, b) => new Date(b.date) - new Date(a.date))
+    } else if (sortBy === 'oldest') {
+      filtered.sort((a, b) => new Date(a.date) - new Date(b.date))
+    } else if (sortBy === 'highest') {
+      filtered.sort((a, b) => Number(b.amount) - Number(a.amount))
+    } else if (sortBy === 'lowest') {
+      filtered.sort((a, b) => Number(a.amount) - Number(b.amount))
+    }
+
+    return filtered
+  }
 
   const totalIncome = transactions
     .filter((t) => t.type === 'income')
@@ -193,9 +226,40 @@ function Dashboard() {
           <button type="submit">{editingId ? 'Update Transaction' : 'Add Transaction'}</button>
         </form>
 
+        <div className="filter-bar">
+          <input
+            type="text"
+            placeholder="Search by description..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
+            <option value="All">All Categories</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Bills">Bills</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+            <option value="All">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="highest">Highest Amount</option>
+            <option value="lowest">Lowest Amount</option>
+          </select>
+        </div>
+
         <h2>Transactions</h2>
         <ul className="transaction-list">
-          {transactions.map((t) => (
+          {getFilteredTransactions().map((t) => (
             <li key={t._id} className="transaction-item">
               <span>{t.description} — ₹{t.amount} ({t.category}, {t.type})</span>
               <div>
