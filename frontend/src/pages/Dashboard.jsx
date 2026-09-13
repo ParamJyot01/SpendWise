@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import Navbar from '../components/Navbar'
-
+import Sidebar from '../components/Sidebar'
 function Dashboard() {
   const [formData, setFormData] = useState({
     amount: '',
@@ -172,8 +171,9 @@ function Dashboard() {
   const balance = totalIncome - totalExpense
 
   return (
-    <>
-      <Navbar />
+    <div className="app-layout">
+      <Sidebar />
+      <div className="main-content">
       <div className="dashboard-container">
         <h1>Dashboard</h1>
         {error && <p className="auth-error">{error}</p>}
@@ -270,7 +270,8 @@ function Dashboard() {
           ))}
         </ul>
       </div>
-    </>
+      </div>
+    </div>
   )
 }
 
