@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts'
-
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, LineChart, Line } from 'recharts'
 const COLORS = ['#20c978', '#4f46e5', '#f59e0b', '#dc2626', '#0ea5e9', '#8b5cf6', '#ec4899', '#14b8a6']
 const CATEGORY_ICONS = {
   Food: '🍔',
@@ -65,6 +64,29 @@ function AnalyticsPage() {
       { name: 'Income', amount: income },
       { name: 'Expense', amount: expense }
     ]
+  }
+    function getMonthlyTrend() {
+    const grouped = {}
+
+    transactions.forEach((t) => {
+      const date = new Date(t.date)
+      const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+      const monthLabel = date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })
+
+      if (!grouped[monthKey]) {
+        grouped[monthKey] = { month: monthLabel, income: 0, expense: 0 }
+      }
+
+      if (t.type === 'income') {
+        grouped[monthKey].income += Number(t.amount)
+      } else {
+        grouped[monthKey].expense += Number(t.amount)
+      }
+    })
+
+    return Object.keys(grouped)
+      .sort()
+      .map((key) => grouped[key])
   }
     function getRecentTransactions() {
     return [...transactions]
@@ -179,6 +201,23 @@ function AnalyticsPage() {
               </div>
             )}
                    </div>
+
+          {transactions.length > 0 && (
+            <div className="chart-card trend-chart-card">
+              <h2>Monthly Trend</h2>
+              <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={getMonthlyTrend()}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="income" stroke="#16a34a" strokeWidth={2.5} />
+                  <Line type="monotone" dataKey="expense" stroke="#dc2626" strokeWidth={2.5} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          )}
 
           <div className="chart-card recent-list-card">
             <h2>Recent Transactions</h2>
