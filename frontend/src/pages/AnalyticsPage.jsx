@@ -12,6 +12,8 @@ const CATEGORY_ICONS = {
 function AnalyticsPage() {
   const [transactions, setTransactions] = useState([])
   const [error, setError] = useState('')
+  const [insights, setInsights] = useState([])
+  const [loadingInsights, setLoadingInsights] = useState(false)
 
   const token = localStorage.getItem('token')
 
@@ -34,6 +36,26 @@ function AnalyticsPage() {
       setTransactions(data)
     } catch (err) {
       setError('Failed to load transactions')
+    }
+  }
+  async function fetchInsights() {
+    setLoadingInsights(true)
+    try {
+      const response = await fetch('http://localhost:5000/api/insights', {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.message || 'Failed to load insights')
+        return
+      }
+
+      setInsights(data.suggestions)
+    } catch (err) {
+      setError('Failed to load insights')
+    } finally {
+      setLoadingInsights(false)
     }
   }
 
@@ -65,7 +87,7 @@ function AnalyticsPage() {
       { name: 'Expense', amount: expense }
     ]
   }
-    function getMonthlyTrend() {
+  function getMonthlyTrend() {
     const grouped = {}
 
     transactions.forEach((t) => {
@@ -88,7 +110,7 @@ function AnalyticsPage() {
       .sort()
       .map((key) => grouped[key])
   }
-    function getRecentTransactions() {
+  function getRecentTransactions() {
     return [...transactions]
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .slice(0, 5)
@@ -122,6 +144,25 @@ function AnalyticsPage() {
           <div className="analytics-header">
             <h1>Analytics</h1>
             <p>A breakdown of your income, spending, and category habits.</p>
+          </div>
+                    <div className="insights-section">
+            <div className="insights-header">
+              <h2>💡 Smart Insights</h2>
+              <button onClick={fetchInsights} disabled={loadingInsights} className="insights-btn">
+                {loadingInsights ? 'Thinking...' : 'Get AI Suggestions'}
+              </button>
+            </div>
+
+            {insights.length > 0 && (
+              <div className="insights-list">
+                {insights.map((tip, index) => (
+                  <div key={index} className="insight-item">
+                    <span className="insight-number">{index + 1}</span>
+                    <p>{tip}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           {error && <p className="auth-error">{error}</p>}
 
@@ -164,17 +205,17 @@ function AnalyticsPage() {
                 <h2>Spending by Category</h2>
                 <ResponsiveContainer width="100%" height={380}>
                   <PieChart>
-                <Pie
-                  data={categoryData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={70}
-                  outerRadius={110}
-                  paddingAngle={3}
-                  label={false}
-                >
+                    <Pie
+                      data={categoryData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={70}
+                      outerRadius={110}
+                      paddingAngle={3}
+                      label={false}
+                    >
                       {categoryData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
@@ -200,7 +241,7 @@ function AnalyticsPage() {
                 </ResponsiveContainer>
               </div>
             )}
-                   </div>
+          </div>
 
           {transactions.length > 0 && (
             <div className="chart-card trend-chart-card">

@@ -1454,3 +1454,81 @@ body {
 .trend-chart-card {
   margin-top: 20px;
 }
+/* ---------- AI Insights ---------- */
+.insights-section {
+  background: linear-gradient(135deg, #f0fdf4, #e8f8ee);
+  border: 1px solid #d1f5dd;
+  border-radius: 16px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+
+.insights-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.insights-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.insights-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.insights-btn:hover:not(:disabled) {
+  background: var(--primary-dark);
+}
+
+.insights-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.insights-list {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.insight-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: white;
+  padding: 14px 16px;
+  border-radius: 10px;
+}
+
+.insight-number {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.insight-item p {
+  font-size: 14px;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
