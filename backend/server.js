@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import budgetRoutes from './routes/budgetRoutes.js'
+import insightsRoutes from './routes/insightsRoutes.js'
 import transactionRoutes from './routes/transactionRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 
@@ -25,6 +26,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/transactions', transactionRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/budgets', budgetRoutes)
+app.use('/api/insights', insightsRoutes)
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
