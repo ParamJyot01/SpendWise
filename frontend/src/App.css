@@ -1532,3 +1532,1899 @@ body {
   color: var(--text-dark);
   line-height: 1.5;
 }
+.dashboard-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.export-btn {
+  background: white;
+  border: 1.5px solid var(--primary);
+  color: var(--primary-dark);
+  padding: 9px 18px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13.5px;
+  font-family: inherit;
+}
+
+.export-btn:hover {
+  background: var(--primary-light);
+}
+
+
+/* =========================================================
+   SPENDWISE DASHBOARD — MATCHES Dashboard.jsx
+   ========================================================= */
+
+/* ---------- Dashboard Header ---------- */
+
+.dashboard-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 34px 36px 70px;
+}
+
+.dashboard-container > h1 {
+  margin: 0 0 22px;
+  color: #101814;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+}
+
+/* Error */
+
+.dashboard-container .auth-error {
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   SUMMARY CARDS
+   ========================================================= */
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.summary-card {
+  position: relative;
+  min-height: 118px;
+  padding: 21px 22px;
+  overflow: hidden;
+
+  background: #ffffff;
+  border: 1px solid #e5eee9;
+  border-radius: 16px;
+
+  box-shadow: 0 5px 18px rgba(25, 74, 48, 0.05);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.summary-card::after {
+  content: "";
+  position: absolute;
+  right: -25px;
+  bottom: -35px;
+
+  width: 90px;
+  height: 90px;
+
+  border-radius: 50%;
+  background: rgba(32, 201, 120, 0.05);
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(25, 74, 48, 0.08);
+}
+
+.summary-card h3 {
+  margin: 0 0 8px;
+
+  color: #718078;
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.summary-card p {
+  margin: 0;
+
+  color: #101814;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.income-card {
+  border-top: 3px solid #20c978;
+}
+
+.income-card p {
+  color: #16a34a;
+}
+
+.expense-card {
+  border-top: 3px solid #dc4b4b;
+}
+
+.expense-card p {
+  color: #dc4b4b;
+}
+
+.balance-card {
+  border-top: 3px solid #1687c7;
+}
+
+.balance-card p {
+  color: #1687c7;
+}
+
+
+/* =========================================================
+   OVERVIEW GRID
+   ========================================================= */
+
+.dashboard-overview-grid {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.9fr);
+
+  gap: 18px;
+
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   CHART CARDS
+   ========================================================= */
+
+.chart-card {
+  min-width: 0;
+
+  padding: 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eee9;
+  border-radius: 16px;
+
+  box-shadow: 0 5px 18px rgba(25, 74, 48, 0.05);
+}
+
+.chart-card h2 {
+  margin: 0;
+
+  color: #26342d;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+
+/* ---------- Balance Trend ---------- */
+
+.overview-trend {
+  min-height: 265px;
+}
+
+.overview-trend h2 {
+  margin-bottom: 15px;
+}
+
+/* Recharts */
+
+.overview-trend .recharts-wrapper {
+  width: 100% !important;
+}
+
+.overview-trend .recharts-surface {
+  overflow: visible;
+}
+
+.overview-trend .recharts-cartesian-axis-tick-value {
+  fill: #8a9791;
+  font-size: 11px;
+}
+
+.overview-trend .recharts-cartesian-axis-line,
+.overview-trend .recharts-cartesian-axis-tick-line {
+  stroke: #e8efeb;
+}
+
+.overview-trend .recharts-cartesian-grid line {
+  stroke: #eef3f0;
+}
+
+.overview-trend .recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.overview-trend .recharts-default-tooltip {
+  border: 1px solid #e5eee9 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 20px rgba(25, 74, 48, 0.08) !important;
+}
+
+
+/* =========================================================
+   BUDGET STATUS
+   ========================================================= */
+
+.overview-budgets {
+  min-height: 265px;
+}
+
+.overview-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+  margin-bottom: 17px;
+}
+
+.overview-card-header h2 {
+  margin: 0;
+}
+
+.overview-link {
+  color: #16a866;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+
+  white-space: nowrap;
+}
+
+.overview-link:hover {
+  text-decoration: underline;
+}
+
+.overview-empty {
+  margin-top: 55px;
+
+  color: #89958f;
+  font-size: 13px;
+  text-align: center;
+}
+
+
+/* ---------- Budget Rows ---------- */
+
+.overview-budget-row {
+  margin-bottom: 18px;
+}
+
+.overview-budget-row:last-child {
+  margin-bottom: 0;
+}
+
+.overview-budget-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 8px;
+
+  color: #526159;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.overview-budget-label span:last-child {
+  color: #7c8983;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.overview-budget-row .budget-progress-bar {
+  width: 100%;
+  height: 8px;
+
+  margin: 0;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+  background: #edf3ef;
+}
+
+.overview-budget-row .budget-progress-fill {
+  height: 100%;
+
+  border-radius: 20px;
+
+  background: linear-gradient(
+    90deg,
+    #20c978,
+    #49d991
+  );
+
+  transition: width 0.4s ease;
+}
+
+.overview-budget-row .budget-progress-fill.over-budget {
+  background: #dc4b4b;
+}
+
+
+/* =========================================================
+   RECENT TRANSACTIONS
+   ========================================================= */
+
+.overview-recent {
+  margin-bottom: 22px;
+}
+
+.overview-recent .overview-card-header {
+  margin-bottom: 8px;
+}
+
+.overview-recent .recent-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.overview-recent .recent-item {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 13px 4px;
+
+  border-bottom: 1px solid #eef3f0;
+}
+
+.overview-recent .recent-item:last-child {
+  border-bottom: none;
+}
+
+.overview-recent .recent-item-info {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.overview-recent .recent-item-name {
+  overflow: hidden;
+
+  color: #26342d;
+  font-size: 13px;
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.overview-recent .recent-item-date {
+  color: #8a9791;
+  font-size: 11px;
+}
+
+.overview-recent .recent-item-amount {
+  flex-shrink: 0;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   MANAGE TRANSACTIONS HEADING
+   ========================================================= */
+
+.section-divider {
+  display: flex;
+  align-items: center;
+
+  margin: 30px 0 13px;
+
+  color: #26342d;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.section-divider::after {
+  content: "";
+
+  height: 1px;
+  flex: 1;
+
+  margin-left: 15px;
+
+  background: #e5eee9;
+}
+
+
+/* =========================================================
+   ADD / EDIT TRANSACTION FORM
+   ========================================================= */
+
+.transaction-form {
+  display: grid;
+
+  grid-template-columns:
+    minmax(100px, 0.9fr)
+    minmax(160px, 1.35fr)
+    minmax(110px, 0.8fr)
+    minmax(110px, 0.8fr)
+    auto;
+
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+  padding: 18px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eee9;
+  border-radius: 16px;
+
+  box-shadow: 0 5px 18px rgba(25, 74, 48, 0.05);
+}
+
+.transaction-form input,
+.transaction-form select {
+  width: 100%;
+  height: 43px;
+
+  padding: 0 13px;
+
+  border: 1px solid #d6e3dc;
+  border-radius: 9px;
+
+  outline: none;
+
+  color: #26342d;
+  background: #ffffff;
+
+  font-size: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.transaction-form input::placeholder {
+  color: #98a49e;
+}
+
+.transaction-form input:focus,
+.transaction-form select:focus {
+  border-color: #20c978;
+
+  box-shadow:
+    0 0 0 3px rgba(32, 201, 120, 0.09);
+}
+
+.transaction-form button {
+  height: 43px;
+
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 9px;
+
+  color: white;
+  background: #20c978;
+
+  font-size: 12.5px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.transaction-form button:hover {
+  background: #16a866;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 7px 15px rgba(32, 201, 120, 0.18);
+}
+
+
+/* =========================================================
+   FILTER BAR
+   THIS WAS THE BIG MISSING PART IN YOUR SCREENSHOT
+   ========================================================= */
+
+.filter-bar {
+  display: grid;
+
+  grid-template-columns:
+    minmax(190px, 1.5fr)
+    minmax(135px, 1fr)
+    minmax(110px, 0.8fr)
+    minmax(110px, 0.8fr)
+    auto;
+
+  align-items: center;
+
+  gap: 9px;
+
+  width: 100%;
+
+  margin: 14px 0 12px;
+  padding: 11px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eee9;
+  border-radius: 13px;
+
+  box-shadow: 0 3px 12px rgba(25, 74, 48, 0.035);
+}
+
+.filter-bar input,
+.filter-bar select {
+  width: 100%;
+  height: 37px;
+
+  padding: 0 11px;
+
+  border: 1px solid #d6e3dc;
+  border-radius: 8px;
+
+  outline: none;
+
+  color: #526159;
+  background: #ffffff;
+
+  font-size: 12px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.filter-bar input::placeholder {
+  color: #98a49e;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+  border-color: #20c978;
+
+  box-shadow:
+    0 0 0 3px rgba(32, 201, 120, 0.08);
+}
+
+.filter-bar button {
+  height: 37px;
+
+  padding: 0 13px;
+
+  border: 1px solid #20c978;
+  border-radius: 8px;
+
+  color: #16a866;
+  background: #f2fbf6;
+
+  font-size: 11.5px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  transition: 0.2s ease;
+}
+
+.filter-bar button:hover {
+  color: white;
+  background: #20c978;
+}
+
+
+/* =========================================================
+   TRANSACTIONS TITLE
+   ========================================================= */
+
+.dashboard-container > h2:not(.section-divider) {
+  margin: 18px 0 11px;
+
+  color: #26342d;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   TRANSACTION LIST
+   ========================================================= */
+
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 60px;
+
+  padding: 11px 15px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eee9;
+  border-radius: 12px;
+
+  box-shadow: 0 2px 8px rgba(25, 74, 48, 0.035);
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.transaction-item:hover {
+  border-color: #cfe0d6;
+
+  transform: translateX(2px);
+
+  box-shadow: 0 5px 14px rgba(25, 74, 48, 0.05);
+}
+
+.transaction-item > span {
+  min-width: 0;
+
+  color: #34433b;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-item > div {
+  display: flex;
+  flex-shrink: 0;
+  gap: 7px;
+  margin-left: 15px;
+}
+
+.transaction-item button {
+  padding: 7px 13px;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 11.5px;
+  font-weight: 700;
+
+  transition: 0.2s ease;
+}
+
+.transaction-item button:first-child {
+  color: #1687c7;
+  background: #edf8ff;
+}
+
+.transaction-item button:first-child:hover {
+  background: #dff2ff;
+}
+
+.transaction-item button:last-child {
+  color: #dc4b4b;
+  background: #fff1f1;
+}
+
+.transaction-item button:last-child:hover {
+  background: #ffe1e1;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .dashboard-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview-trend,
+  .overview-budgets {
+    min-height: auto;
+  }
+
+  .filter-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter-bar input {
+    grid-column: span 2;
+  }
+
+  .filter-bar button {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 800px) {
+
+  .dashboard-container {
+    padding: 27px 20px 55px;
+  }
+
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .transaction-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .transaction-form button {
+    grid-column: span 2;
+  }
+
+  .filter-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .filter-bar input {
+    grid-column: span 2;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .dashboard-container {
+    padding: 22px 14px 45px;
+  }
+
+  .dashboard-container > h1 {
+    font-size: 27px;
+  }
+
+  .dashboard-overview-grid {
+    gap: 12px;
+  }
+
+  .chart-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .transaction-form {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .transaction-form button {
+    grid-column: auto;
+  }
+
+  .filter-bar {
+    grid-template-columns: 1fr;
+    padding: 9px;
+  }
+
+  .filter-bar input {
+    grid-column: auto;
+  }
+
+  .filter-bar input,
+  .filter-bar select,
+  .filter-bar button {
+    width: 100%;
+  }
+
+  .transaction-item {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .transaction-item > span {
+    width: 100%;
+    white-space: normal;
+  }
+
+  .transaction-item > div {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .transaction-item button {
+    flex: 1;
+  }
+
+  .section-divider {
+    font-size: 16px;
+  }
+}
+/* =========================================================
+   SPENDWISE — BUDGETS PAGE
+   ========================================================= */
+
+.budgets-page {
+  max-width: 1050px;
+  padding: 36px 42px 70px;
+}
+
+/* ---------- Page Header ---------- */
+
+.budgets-page > h1 {
+  margin: 0 0 25px;
+
+  color: #101814;
+
+  font-size: 32px;
+  font-weight: 800;
+
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+}
+
+
+/* =========================================================
+   BUDGET FORM
+   ========================================================= */
+
+.budgets-page .transaction-form {
+  display: grid;
+
+  grid-template-columns: 190px minmax(200px, 1fr) 155px;
+
+  align-items: center;
+
+  gap: 10px;
+
+  width: 100%;
+
+  padding: 18px;
+
+  margin-bottom: 25px;
+
+  background: #ffffff;
+
+  border: 1px solid #e3ece7;
+  border-radius: 16px;
+
+  box-shadow: 0 5px 18px rgba(25, 74, 48, 0.05);
+}
+
+
+/* Inputs */
+
+.budgets-page .transaction-form select,
+.budgets-page .transaction-form input {
+  width: 100%;
+  height: 44px;
+
+  padding: 0 14px;
+
+  border: 1px solid #d4e2da;
+  border-radius: 9px;
+
+  outline: none;
+
+  color: #26342d;
+  background: #ffffff;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.budgets-page .transaction-form input::placeholder {
+  color: #9aa69f;
+}
+
+.budgets-page .transaction-form select:hover,
+.budgets-page .transaction-form input:hover {
+  border-color: #bdcfc5;
+}
+
+.budgets-page .transaction-form select:focus,
+.budgets-page .transaction-form input:focus {
+  border-color: #20c978;
+
+  box-shadow:
+    0 0 0 3px rgba(32, 201, 120, 0.09);
+
+  background: #ffffff;
+}
+
+
+/* Set Budget Button */
+
+.budgets-page .transaction-form button {
+  height: 44px;
+
+  padding: 0 20px;
+
+  border: none;
+  border-radius: 9px;
+
+  color: #ffffff;
+  background: #20c978;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.budgets-page .transaction-form button:hover {
+  background: #16a866;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 7px 17px rgba(32, 201, 120, 0.20);
+}
+
+.budgets-page .transaction-form button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   YOUR BUDGETS HEADING
+   ========================================================= */
+
+.budgets-page > h2 {
+  margin: 8px 0 14px;
+
+  color: #26342d;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  letter-spacing: -0.2px;
+}
+
+
+/* =========================================================
+   BUDGET LIST
+   ========================================================= */
+
+.budgets-page .budget-list {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+
+  width: 100%;
+}
+
+
+/* =========================================================
+   BUDGET CARD
+   ========================================================= */
+
+.budgets-page .budget-card {
+  position: relative;
+
+  padding: 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e3ece7;
+  border-radius: 15px;
+
+  box-shadow:
+    0 5px 18px rgba(25, 74, 48, 0.045);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.budgets-page .budget-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #cfe0d6;
+
+  box-shadow:
+    0 12px 28px rgba(25, 74, 48, 0.08);
+}
+
+
+/* ---------- Card Header ---------- */
+
+.budgets-page .budget-card-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 18px;
+}
+
+.budgets-page .budget-category {
+  display: flex;
+
+  align-items: center;
+  gap: 9px;
+
+  color: #1d2b24;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.budgets-page .budget-category::before {
+  content: "₹";
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  color: #16a866;
+  background: #e9f9f0;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+
+/* ---------- Delete Button ---------- */
+
+.budgets-page .budget-card-header button {
+  padding: 7px 12px;
+
+  border: 1px solid #f1d2d2;
+  border-radius: 8px;
+
+  color: #dc4b4b;
+  background: #fff5f5;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.budgets-page .budget-card-header button:hover {
+  color: #ffffff;
+  background: #dc4b4b;
+  border-color: #dc4b4b;
+}
+
+
+/* =========================================================
+   PROGRESS BAR
+   ========================================================= */
+
+.budgets-page .budget-progress-bar {
+  width: 100%;
+  height: 9px;
+
+  margin-bottom: 11px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: #edf3ef;
+}
+
+.budgets-page .budget-progress-fill {
+  height: 100%;
+
+  border-radius: 20px;
+
+  background: linear-gradient(
+    90deg,
+    #20c978,
+    #42d88e
+  );
+
+  transition: width 0.45s ease;
+}
+
+.budgets-page .budget-progress-fill.over-budget {
+  background: #dc4b4b;
+}
+
+
+/* =========================================================
+   SPENT / LIMIT
+   ========================================================= */
+
+.budgets-page .budget-numbers {
+  display: flex;
+
+  justify-content: space-between;
+
+  color: #7b8982;
+
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.budgets-page .budget-numbers span:first-child {
+  color: #16a866;
+}
+
+.budgets-page .budget-numbers span:last-child {
+  color: #718078;
+}
+
+
+/* =========================================================
+   OVER BUDGET WARNING
+   ========================================================= */
+
+.budgets-page .budget-warning {
+  display: flex;
+
+  align-items: center;
+  gap: 6px;
+
+  margin: 12px 0 0;
+
+  padding: 8px 10px;
+
+  border-radius: 8px;
+
+  color: #c53d3d;
+  background: #fff2f2;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.budgets-page .budget-warning::before {
+  content: "!";
+  
+  width: 17px;
+  height: 17px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+  background: #dc4b4b;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   EMPTY BUDGET STATE
+   ========================================================= */
+
+.budgets-page .budget-list:empty::before {
+  content: "No budgets created yet. Set your first budget above.";
+
+  display: block;
+
+  grid-column: 1 / -1;
+
+  padding: 40px 20px;
+
+  border: 1px dashed #d6e3dc;
+  border-radius: 14px;
+
+  color: #89958f;
+  background: #fbfdfc;
+
+  text-align: center;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.budgets-page .auth-error {
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+  .budgets-page {
+    padding: 30px 25px 55px;
+  }
+
+  .budgets-page .budget-list {
+    grid-template-columns: 1fr;
+  }
+
+  .budgets-page .transaction-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .budgets-page .transaction-form button {
+    grid-column: span 2;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .budgets-page {
+    padding: 24px 15px 45px;
+  }
+
+  .budgets-page > h1 {
+    font-size: 27px;
+  }
+
+  .budgets-page .transaction-form {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .budgets-page .transaction-form button {
+    grid-column: auto;
+  }
+
+  .budgets-page .budget-list {
+    grid-template-columns: 1fr;
+  }
+
+  .budgets-page .budget-card {
+    padding: 17px;
+  }
+}
+/* =========================================================
+   SPENDWISE — ANALYTICS PAGE
+   ========================================================= */
+
+.analytics-container {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 38px 40px 70px;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.analytics-header {
+  text-align: center;
+  margin-bottom: 27px;
+}
+
+.analytics-header h1 {
+  margin: 0 0 6px;
+
+  color: #101814;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+}
+
+.analytics-header p {
+  margin: 0;
+
+  color: #7a8881;
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   SMART INSIGHTS
+   ========================================================= */
+
+.insights-section {
+  margin-bottom: 20px;
+
+  padding: 18px 20px;
+
+  background: linear-gradient(
+    135deg,
+    #f0fff7 0%,
+    #e8f9f0 100%
+  );
+
+  border: 1px solid #c9eed9;
+  border-radius: 16px;
+
+  box-shadow: 0 5px 18px rgba(25, 74, 48, 0.04);
+}
+
+.insights-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.insights-header h2 {
+  margin: 0;
+
+  color: #16a866;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.insights-btn {
+  height: 36px;
+
+  padding: 0 17px;
+
+  border: none;
+  border-radius: 9px;
+
+  color: #ffffff;
+  background: #20c978;
+
+  font-family: inherit;
+
+  font-size: 11.5px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.insights-btn:hover {
+  background: #16a866;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 6px 15px rgba(32, 201, 120, 0.2);
+}
+
+.insights-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+
+/* ---------- AI Suggestions ---------- */
+
+.insights-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-top: 15px;
+}
+
+.insight-item {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  padding: 11px 12px;
+
+  background: rgba(255, 255, 255, 0.7);
+
+  border: 1px solid #d9f1e2;
+  border-radius: 10px;
+}
+
+.insight-number {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+  background: #20c978;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.insight-item p {
+  margin: 2px 0 0;
+
+  color: #46564d;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.analytics-container .auth-error {
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   STAT CARDS
+   ========================================================= */
+
+.analytics-stats-row {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 13px;
+
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 91px;
+
+  padding: 15px;
+
+  background: #ffffff;
+
+  border: 1px solid #dce8e1;
+  border-radius: 15px;
+
+  box-shadow: 0 4px 14px rgba(25, 74, 48, 0.04);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 9px 22px rgba(25, 74, 48, 0.07);
+}
+
+
+/* ---------- Stat Icon ---------- */
+
+.stat-icon {
+  flex-shrink: 0;
+
+  width: 39px;
+  height: 39px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.income-icon {
+  color: #16a866;
+  background: #ddf8e9;
+}
+
+.expense-icon-white {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.balance-icon {
+  color: #1687c7;
+  background: #e2f2ff;
+}
+
+.count-icon {
+  color: #c08b00;
+  background: #fff2c9;
+}
+
+
+/* ---------- Stat Text ---------- */
+
+.stat-card > div:last-child {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+
+  gap: 4px;
+}
+
+.stat-label {
+  color: #708078;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  color: #101814;
+
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.stat-label.light,
+.stat-value.light {
+  color: #ffffff;
+}
+
+
+/* ---------- Highlighted Expense ---------- */
+
+.stat-card.highlighted {
+  border-color: #20c978;
+
+  background: #20c978;
+
+  box-shadow: 0 8px 20px rgba(32, 201, 120, 0.17);
+}
+
+
+/* =========================================================
+   CHART GRID
+   ========================================================= */
+
+.charts-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 17px;
+
+  margin-bottom: 17px;
+}
+
+
+/* Empty data message */
+
+.charts-grid > p {
+  grid-column: 1 / -1;
+
+  margin: 0;
+
+  padding: 25px 20px;
+
+  color: #697770;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   CHART CARD
+   ========================================================= */
+
+.analytics-container .chart-card {
+  min-width: 0;
+
+  padding: 19px 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2ebe6;
+  border-radius: 16px;
+
+  box-shadow: 0 5px 18px rgba(25, 74, 48, 0.045);
+}
+
+.analytics-container .chart-card h2 {
+  margin: 0 0 10px;
+
+  color: #26342d;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   RECHARTS
+   ========================================================= */
+
+.analytics-container .recharts-cartesian-axis-tick-value {
+  fill: #8a9791;
+
+  font-size: 10px;
+}
+
+.analytics-container .recharts-cartesian-axis-line,
+.analytics-container .recharts-cartesian-axis-tick-line {
+  stroke: #e5ece8;
+}
+
+.analytics-container .recharts-cartesian-grid line {
+  stroke: #edf2ef;
+}
+
+.analytics-container .recharts-default-tooltip {
+  border: 1px solid #e1ebe5 !important;
+  border-radius: 10px !important;
+
+  box-shadow:
+    0 8px 20px rgba(25, 74, 48, 0.09) !important;
+}
+
+
+/* =========================================================
+   MONTHLY TREND
+   ========================================================= */
+
+.trend-chart-card {
+  width: 100%;
+
+  margin-bottom: 17px;
+}
+
+.trend-chart-card h2 {
+  margin-bottom: 12px !important;
+}
+
+
+/* =========================================================
+   RECENT TRANSACTIONS
+   ========================================================= */
+
+.recent-list-card {
+  width: 100%;
+}
+
+.recent-list-card h2 {
+  margin-bottom: 5px !important;
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 13px 4px;
+
+  border-bottom: 1px solid #edf2ef;
+}
+
+.recent-item:last-child {
+  border-bottom: none;
+}
+
+
+/* ---------- Transaction Icon ---------- */
+
+.recent-item-icon {
+  flex-shrink: 0;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: #eef8f2;
+
+  font-size: 17px;
+}
+
+
+/* ---------- Transaction Information ---------- */
+
+.recent-item-info {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.recent-item-name {
+  overflow: hidden;
+
+  color: #26342d;
+
+  font-size: 12.5px;
+  font-weight: 700;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-item-date {
+  color: #929e98;
+
+  font-size: 10.5px;
+}
+
+
+/* ---------- Transaction Amount ---------- */
+
+.recent-item-amount {
+  flex-shrink: 0;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.recent-item-amount.income {
+  color: #16a866;
+}
+
+.recent-item-amount.expense {
+  color: #dc4b4b;
+}
+
+
+/* =========================================================
+   EMPTY RECENT TRANSACTIONS
+   ========================================================= */
+
+.recent-list-card .recent-list:empty::after {
+  content: "No transactions yet.";
+
+  display: block;
+
+  padding: 30px;
+
+  color: #929e98;
+
+  font-size: 13px;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 950px) {
+
+  .analytics-container {
+    padding: 30px 25px 55px;
+  }
+
+  .analytics-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .analytics-container {
+    padding: 24px 15px 45px;
+  }
+
+  .analytics-header h1 {
+    font-size: 27px;
+  }
+
+  .analytics-header p {
+    font-size: 12px;
+  }
+
+  .insights-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .insights-btn {
+    width: 100%;
+  }
+
+  .analytics-stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    min-height: 82px;
+  }
+
+  .analytics-container .chart-card {
+    padding: 15px;
+    border-radius: 14px;
+  }
+
+  .recent-item-amount {
+    font-size: 12px;
+  }
+}
